@@ -17,7 +17,7 @@
 <!--<![endif]-->
 
 <head>
-  <title>eagle_client解析 | 猴年马月</title>
+  <title>gulp入门 | 猴年马月</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -257,111 +257,132 @@
         <div class="row col-md-offset-2">
             <div class="col-md-8">
     			<span class="post-meta">
-      <time datetime="2016-02-16T07:50:59.000Z" itemprop="datePublished">
-          2016-02-16
+      <time datetime="2016-03-22T09:34:00.000Z" itemprop="datePublished">
+          2016-03-22
       </time>
     
     
     | 
-    <a href='/tags/eagle/'>eagle</a>,
+    <a href='/tags/gulp/'>gulp</a>,
     
-    <a href='/tags/monitor/'>monitor</a>
+    <a href='/tags/自动化构建/'>自动化构建</a>
     
     
 </span>
-                <h1>eagle_client解析</h1>
+                <h1>gulp入门</h1>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
-      		<p>今年工作的主要方向之一：监控（维稳）</p>
-<pre><code>├── app
-│   ├── base
-│   ├── clientindex.js
-│   ├── hardware
-│   ├── lib
-│   ├── process
-│   └── test
-├── bin
-│   └── hw.js
-├── cmd
-│   ├── hardware.sh
-│   └── pids
-├── config.json
-├── coverage
-├── makefile
-├── mochawesome-reports
-│   ├── css
-│   ├── fonts
-│   ├── js
-│   ├── mochawesome.html
-│   └── mochawesome.json
+      		<center><img src="/images/gulp/gulp.png" alt="gulp"></center>
+
+<blockquote>
+<p>gulp是基于Nodejs的自动任务运行器， 她能自动化地完成 javascript/sass/less/html/image/css 等文件的的测试、检查、合并、压缩、格式化、浏览器自动刷新、部署文件生成，并监听文件在改动后重复指定的这些步骤。在实现上，她借鉴了Unix操作系统的管道（pipe）思想，前一级的输出，直接变成后一级的输入，使得在操作上非常简单。</p>
+</blockquote>
+<p>1、 全局安装gulp：</p>
+<pre><code>npm install --global gulp 或 npm install -g gulp
+</code></pre><p>执行：<code>gulp -v</code> 查看gulp版本号，以确认gulp是否成功安装</p>
+<p>2、新建&amp;进入项目文件（不存在时，此处以gulp_demo项目为例），交互式的初始化 package.json 文件：</p>
+<pre><code>npm init
+</code></pre><p>3、作为项目的开发依赖（devDependencies）安装gulp：</p>
+<pre><code>npm install --save-dev gulp
+</code></pre><p>PS：细心的你可能会发现，我们全局安装了gulp，项目也独立安装了gulp，全局安装gulp是为了执行gulp任务，本地安装gulp则是为了调用gulp插件的功能。</p>
+<p>4、根目录下创建一个名为<code>gulpfile.js</code>的文件（gulp项目的配置文件）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引入gulp</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义默认的任务（在命令行中使用 gulp default + 回车 / gulp + 回车 启动此任务）</span></span><br><span class="line">gulp.task(<span class="string">'default'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 将你的默认的任务代码放在这</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>目前gulp_demo项目结构如下：</p>
+<pre><code>├── gulpfile.js
 ├── node_modules
-├── package.json
-├── src
-│   ├── api
-│   ├── base
-│   ├── bin
-│   ├── clientindex.js
-│   ├── common
-│   ├── hardware
-│   ├── lib
-│   └── process
-├── test
-│   └── hardware
-└── todo.md
-</code></pre><h3 id="u53D1_u5E03eagle-client_u7A0B_u5E8F_u5305"><a href="#u53D1_u5E03eagle-client_u7A0B_u5E8F_u5305" class="headerlink" title="发布eagle-client程序包"></a><strong>发布eagle-client程序包</strong></h3><p>NPM（Node Package Manager）称为Node包管理器，主要功能：安转、卸载、更新、查看、搜索、发布…</p>
-<p>在发布程序包之前，可以先在本地打包安装一次，测试程序运作是否正常，安装命令为：</p>
-<blockquote>
-<p>npm install &lt;本地包路径&gt;</p>
-</blockquote>
-<p>发布程序包只需要简单的两步：</p>
-<p>1、注册NPM账号</p>
-<p>要把程序包发布到npmjs.org，还需要先注册一个帐号。npm并没有提供网页版的注册向导，注册也要通过命令行来进行。</p>
-<blockquote>
-<p>npm adduser</p>
-</blockquote>
-<p>执行此命令后，会依次出现输入Username、Password、Email的提示，输入好之后等待一会儿就可以了。</p>
-<p>2、发布程序包</p>
-<blockquote>
-<p>npm puslish &lt;本地包路径&gt;</p>
-</blockquote>
-<p>至此，eagle-client程序包就被发布到了npmjs.org上，so easy~</p>
+│   └── gulp
+└── package.json
+</code></pre><p>5、gulp常规用法：</p>
 <ul>
-<li>如果要<strong> 更新程序包 </strong>，只要修改一下package.json中的版本号，再重新执行发布命令就可以了。</li>
-<li><p>账号注册成功后，npm会把认证信息存储在~/.npmrc文件中，并且可以通过以下命令查看npm当前使用的用户：</p>
-<blockquote>
-<p>npm whoami</p>
-</blockquote>
-</li>
-<li><p>npm社区版本号规则采用的是semver(语义化版本)，主要规则如下：<br>版本格式：主版号.次版号.修订号。版号递增规则如下：</p>
-<pre><code>主版号：当你做了不相容的 API 修改，
-次版号：当你做了向下相容的功能性新增，
-修订号：当你做了向下相容的问题修正。
-先行版号及版本编译资讯可以加到「主版号.次版号.修订号」的后面，作为延伸。
-</code></pre></li>
+<li>gulp.src(globs[, options]) 选择文件<br>输出（Emits）符合所提供的匹配模式（glob）或者匹配模式的数组（array of globs）的文件。 将返回一个 Vinyl files 的 stream 它可以被 piped 到别的插件中。</li>
 </ul>
-<p>下面看看如何安装刚刚发布的eagle-client程序包吧~</p>
-<h3 id="u5B89_u88C5eagle-client_u7A0B_u5E8F_u5305"><a href="#u5B89_u88C5eagle-client_u7A0B_u5E8F_u5305" class="headerlink" title="安装eagle-client程序包"></a><strong>安装eagle-client程序包</strong></h3><p>安装eagle-client程序包的方法同其他程序包的安装步骤一致，执行：</p>
-<p>&gt;<br> npm install -g eagle-client</p>
+<hr>
+<p>globs通配符路径匹配示例：<br><code>src/a.js</code>：指定具体文件<br><code>*</code>：匹配所有文件<br>例：src/*.js(包含src下的所有js文件)；<br><code>**</code>：匹配0个或多个子文件夹<br>例：src/**/*.js(包含src的0个或多个子文件夹下的js文件)；<br><code>{}</code>：匹配多个属性<br>例：src/{a,b}.js(包含a.js和b.js文件) src/*.{jpg,png,gif}(src下的所有jpg/png/gif文件)；<br><code>!</code>：排除文件<br>例：!src/a.js(不包含src下的a.js文件)；</p>
+<p>options.buffer<br>类型： Boolean 默认值： true<br>如果该项被设置为 false，那么将会以 stream 方式返回 file.contents 而不是文件 buffer 的形式。这在处理一些大文件的时候将会很有用。<strong>注意：</strong>插件可能并不会实现对 stream 的支持。</p>
+<p>options.read<br>类型： Boolean 默认值： true<br>如果该项被设置为 false，那么 file.contents 会返回空值（null），也就是并不会去读取文件。</p>
+<p>options.base<br>类型： String 设置输出路径以某个路径的某个组成部分为基础向后拼接</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(<span class="string">'testUglifyJs'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">	gulp.src(<span class="string">'static/js/*.js'</span>)</span><br><span class="line">		.pipe(uglifyJs())</span><br><span class="line">		.pipe(gulp.dest(<span class="string">'dist'</span>))	<span class="comment">// 写入 'dist/a.js'</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'testUglifyJs'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">	gulp.src(<span class="string">'static/js/*.js'</span>, &#123;base: <span class="string">'static'</span>&#125;)</span><br><span class="line">		.pipe(uglifyJs())</span><br><span class="line">		.pipe(gulp.dest(<span class="string">'dist'</span>))	<span class="comment">// 写入 'dist/js/a.js'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<hr>
+<ul>
+<li><p>gulp.dest(path[, options]) 输出文件<br>能被pipe进来，并且将会写文件。并且重新输出（emits）所有数据，因此你可以将它pipe到多个文件夹。如果某文件夹不存在，将会自动创建它。</p>
+</li>
+<li><p>gulp.task(name[, deps], fn) 定义任务</p>
+</li>
+<li><p>gulp.watch(glob [, opts], tasks) 或 gulp.watch(glob [, opts, cb])    监控文件<br>注意：该命令提示符执行需处于打开状态，关闭后监听事件结束(command + C 或 右上)</p>
+</li>
+<li><p>gulp.pipe() 管道</p>
+</li>
+</ul>
+<p>6、运行 <code>gulp &lt;task[任务名]&gt; &lt;othertask&gt;</code></p>
+<p>7、gulp相关的plugins（插件）：</p>
+<ul>
+<li><code>gulp-uglify</code> 压缩js</li>
+<li><code>gulp-minify-css</code> 压缩css</li>
+<li><code>gulp-imagemin</code> 压缩图片</li>
+<li><code>gulp-less</code> 编译less</li>
+<li><code>gulp-ruby-sass</code> 编译sass</li>
+<li><code>gulp-notify</code>、<code>gulp-plumber</code> 异常处理</li>
+<li>…</li>
+</ul>
+<p><a href="http://gulpjs.com/plugins/" target="_blank" rel="external">在这里搜索gulp插件</a> 或 npm<a href="https://www.npmjs.com/browse/keyword/gulpplugin" target="_blank" rel="external">查看所有插件</a></p>
+<p>PS：使用时请执行<code>npm install --save-dev 插件名</code>（开发依赖），在项目中<code>require</code>进来（node_modules里对应模块）</p>
+<p><a href="http://www.gulpjs.com.cn/docs/recipes/" target="_blank" rel="external">更多技巧传送门 &gt;&gt;&gt;</a></p>
+<hr>
+<p><strong> 简单DEMO-以压缩js为例：</strong></p>
+<pre><code>作用：
+降低js文件大小，提升页面访问速度，增强用户体验
+
+规律：
+找到要进行压缩的文件
+压缩这些js文件
+将压缩后的代码另存在dist/js/目录下
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> uglifyJs = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'testUglifyJs'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">	gulp.src(<span class="string">'static/js/*.js'</span>)</span><br><span class="line">		.pipe(uglifyJs())</span><br><span class="line">		.pipe(gulp.dest(<span class="string">'dist/js'</span>))</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>观察 <code>gulp testUglifyJs</code> 运行任务后目录结构变化<br>压缩前目录：</p>
+<pre><code>├── gulpfile.js
+├── node_modules
+│   ├── gulp
+│   └── gulp-uglify
+├── package.json
+└── static
+    └── js
+        └── a.js
+</code></pre><p><code>vi /Users/MLS/demo/gulp_demo/static/js/a.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(num &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> num * factorial(num - <span class="number">1</span>); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(<span class="number">5</span>);</span><br></pre></td></tr></table></figure></p>
+<p>压缩后目录：</p>
+<pre><code>├── dist
+│   └── js
+│       └── a.js
+├── gulpfile.js
+├── node_modules
+│   ├── gulp
+│   └── gulp-uglify
+├── package.json
+└── static
+    └── js
+        └── a.js
+</code></pre><p><code>vi /Users/MLS/demo/gulp_demo/dist/js/a.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!<span class="function"><span class="keyword">function</span> <span class="title">n</span>(<span class="params">r</span>)</span>&#123;<span class="keyword">return</span> <span class="number">1</span>&gt;=r?<span class="number">1</span>:r*n(r-<span class="number">1</span>)&#125;(<span class="number">5</span>);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><br><br></p>
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><ul>
+<li><a href="https://github.com/gulpjs/gulp" target="_blank" rel="external">gulp 源码</a></li>
+<li><a href="http://www.gulpjs.com.cn/docs/api/" target="_blank" rel="external">gulp API 文档</a></li>
+<li>nimojs的<a href="https://github.com/nimojs/gulp-book" target="_blank" rel="external">《Gulp 入门指南》</a></li>
+</ul>
 
             <div class="clearfix"></div>
             <hr class="nogutter">
         </div>
         <nav class="pagination" role="pagination">
     
-    <a class="pull-left" href="/2016/03/18/wiki/" style="float: left;">
-        ← 猴年马月wiki🐒🐴
-    </a>
     
-    
-    <a class="pull-right" href="/2016/02/15/iterm-solarized/">
-        终端iTerm在Mac OS X下的solarized配色方案 →
+    <a class="pull-right" href="/2016/03/19/tianjin/">
+        天津一日游 →
     </a>
     
 </nav>
 
         <div class="duoshuo">
-<div class="ds-thread" data-thread-key="2016/02/16/eagle-client/" data-title="eagle_client解析" data-url="http://fearea.com/2016/02/16/eagle-client/"></div>
+<div class="ds-thread" data-thread-key="2016/03/22/gulp-wiki/" data-title="gulp入门" data-url="http://fearea.com/2016/03/22/gulp-wiki/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"fearea"};
 (function() {
