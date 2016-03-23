@@ -3452,8 +3452,79 @@ footer .footer_bottom {
 /*---------------- END ------------------------*/
 
 @charset "utf-8";
+
 /* CSS Document */
 
+
+/* table */
+
+table {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+table th {
+    background-color: #efefef;
+}
+
+table th,
+table td {
+    padding: 5px;
+    border: 1px solid #e3e3e3;
+}
+
+/* a */
+a[rel="external"] {
+	color: #22c4f3!important;
+}
+
+
+/* code */
+
+
+code {
+    color: #ed4846;
+    background-color: #f3f3f3;
+}
+
+
+/* blockquote */
+
+
+/*blockquote p {
+    font-family: inherit;
+    font-style: normal;
+}*/
+
+
+/* figure */
+
+figure.highlight {
+    background: #f7f7f7;
+}
+
+figure.highlight table {
+    margin-bottom: 0;
+}
+
+figure.highlight table td {
+    border: none;
+}
+
+figure.highlight table td.gutter pre {
+    color: #999;
+}
+
+figure.highlight table td.code {
+    border-left: 1px dotted #ccc;
+}
+
+
+/* pre */
+
+pre {
+    background-color: #f7f7f7;
+}
 
 .entry .gist {
   background: #eee;
